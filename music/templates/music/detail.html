@@ -1,0 +1,77 @@
+{% extends 'music/base.html' %}
+{% block title %} Album Details{% endblock %}
+{% block body %}
+    {#    <img src="{{ album.logo }}" style="width: 250px;">#}
+    {##}
+    {#    <h1>{{ album.title }}</h1>#}
+    {#    <h2>{{ album.artist }}</h2>#}
+    {##}
+    {#    {% for song in album.song_set.all %}#}
+    {#        {{ song.title }}#}
+    {#        {% if song.is_favorite %}#}
+    {#            <img src="http://i.imgur.com/b9b13Rd.png">#}
+    {#        {% endif %}#}
+    {#        <br>#}
+    {#    {% endfor %}#}
+    <div class="container-fluid" style="padding: 50px">
+        <div class="row justify-content-md-center">
+            <div class="col-auto card bg-light mb-3 rounded" style="width: 18rem;">
+                <img src="{{ album.logo.url }}" class="card-img-top" alt="Card image cap" style="margin-top: 10px;"><br>
+                <div class="card-body">
+                    <h2 class="card-subtitle">
+                        {{ album.title }}
+                        <span class="text-muted" style="font-size: 24px">{{ album.genre }}</span>
+                    </h2>
+                    <h4 class="card-subtitle">{{ album.artist }}</h4>
+                </div>
+            </div>
+            <div class="col" style="margin-left: 20px">
+                <button class="btn btn-primary">View All</button>
+                <button class="btn btn-link">Add New Song</button>
+                <div class="row justify-content-md-center" style="background-color: white; margin-top: 10px">
+                    <div class="col">
+                        <h1>All Songs</h1><br>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Title</th>
+                                <th scope="col">Audio File</th>
+                                <th scope="col">Favorite</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for song in album.song_set.all %}
+                                <tr>
+                                    <td>{{ song.title }}</td>
+                                    <td>
+                                        <a target="_blank" href="#">
+                                            <button type="button" class="btn btn-success btn-xs">
+                                                <span class="fas fa-play"></span>&nbsp; Play
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn-favorite"><span
+                                                class="fas fa-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                    </td>
+                                    <td>
+                                        <form action="#" method="post"
+                                              style="display: inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="song_id" value="{{ song.id }}"/>
+                                            <button type="submit" class="btn btn-danger btn-xs">
+                                                <span class="fas fa-trash-alt"></span>&nbsp; Delete
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'music/base.html' %}
+
+{% block body %}
+{#        <ul>#}
+{#            {% for album in all_albums %}#}
+{#                <li><a href="{% url 'music:detail' album.id %}"> {{ album.title }}</a></li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+    <div class="container"  style="margin-top: 50px;">
+        {% for album in all_albums %}
+            {% if forloop.first %}<div class="row justify-content-around">{% endif %}
+            <div class="col-auto card bg-light mb-3" style="width: 22rem;">
+                <a href="{% url 'music:detail' album.pk %}">
+                    <img src="{{ album.logo.url }}" class="card-img-top" alt="Card image cap" style="margin-top: 10px;"><br>
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ album.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ album.artist }}</h6>
+                    <!--View Album Details-->
+                    <a href="{% url 'music:detail' album.id %}" class= "btn btn-primary btn-sm"> View Details</a>
+                    <!--Delete Album-->
+                     <form action="{% url 'music:album-delete' album.id %}" method="post" style="display: inline;">
+                         {% csrf_token %}
+                         <input type="hidden" name="album_id" value="{{ album.id }}" />
+                         <button type="submit" class="btn btn-outline-dark btn-sm">
+                             <span class="fas fa-trash-alt fa-sm"></span>
+                         </button>
+                     </form>
+                    <a class="btn btn-outline-dark btn-sm" href="#">
+                        <span class="fas fa-star fa-sm" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:3 %}</div><div class="row justify-content-around">{% endif %}
+            {% if forloop.last %}</div>{% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

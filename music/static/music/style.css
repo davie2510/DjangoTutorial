@@ -1,0 +1,12 @@
+body{
+    background: white url("images/background.png");
+}
+
+.navbar-brand{
+    font-family: 'Lobster', cursive;
+}
+
+.div-container{
+    background-color: aliceblue;
+    border-radius: 25px;
+}
